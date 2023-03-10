@@ -1,0 +1,230 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: sans-serif;
+  padding: 50px;
+  background-image: url("img/bg.jpg");
+  background-size: cover;
+  color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.7) 0 0 0 1000px inset;
+}
+/* logo  */
+h1 {
+  text-align: center;
+  padding-bottom: 70px;
+}
+.logo {
+  text-align: center;
+  padding-bottom: 50px;
+}
+/*start main wrapper  */
+.main-wrapper {
+  max-width: 700px;
+  margin: auto;
+  background-color: rgba(255, 255, 255, 0.3);
+  padding: 30px;
+  border-radius: 5px;
+}
+form h2 {
+  padding-bottom: 15px;
+}
+button {
+  padding: 5px 15px;
+  cursor: pointer;
+}
+form label {
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+form input {
+  display: block;
+  padding: 10px;
+  width: 100%;
+  margin: 10px 0 15px 0;
+  border: none;
+  outline: none;
+  border-radius: 10px;
+}
+form button {
+  border-radius: 10px;
+  border: none;
+  font-size: 1.3rem;
+}
+form button:hover {
+  background-color: #222;
+  color: #fff;
+}
+/* end main wrapper */
+/*  start popup modal for registration */
+.no-acc {
+  text-align: center;
+  padding: 20px;
+}
+.no-acc p {
+  font-size: 22px;
+  padding-bottom: 10px;
+}
+.no-acc button {
+  font-size: 1.2rem;
+}
+.custom-modal {
+  display: none;
+  background-color: black;
+  box-shadow: rgba(255, 255, 255, 0.7) 0 0 1000px 1000px;
+  max-width: 700px;
+  padding: 50px;
+  margin: auto;
+  border-radius: 10px;
+  position: absolute;
+  top: 10%;
+  left: 0;
+  right: 0;
+  width: 100%;
+}
+.custom-modal button#close-modal {
+  background-color: transparent;
+  color: #fff;
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  border: none;
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+.custom-modal button#close-modal:hover {
+  color: rgb(221, 94, 62);
+}
+form ul {
+  list-style: none;
+  padding: 0 0 10px 0;
+}
+form li {
+  color: red;
+}
+/* end popup modal for registration */
+
+/* style for hexa page from this point */
+
+/* styling left and right side in contaners  */
+
+.inner-container {
+  border: 1px solid green;
+  padding: 15px;
+}
+.left-side {
+  text-align: center;
+}
+/* start left side , profile picture and buttons for edit and logout form account */
+.left-side img.profile-picture {
+  width: 70%;
+  border-radius: 50%;
+  border: 3px solid white;
+  display: block;
+  margin: auto;
+  margin-bottom: 10px;
+}
+.left-side button {
+  padding: 3px 5px;
+  background-color: #aca0a0;
+  color: white;
+}
+.left-side button:hover {
+  background-color: #fff;
+  color: #aca0a0;
+}
+/* end of left side */
+/* start right side with textarea, buttons, post and comment section, like,remove and comment buttons*/
+.right-side form {
+  display: flex;
+  height: 100px;
+}
+.right-side form textarea {
+  width: 80%;
+  padding: 20px 10px 10px 20px;
+  resize: none;
+  outline-color: green;
+  border: 0;
+}
+.right-side form button {
+  width: 20%;
+  padding: 3px;
+  border-radius: 0px;
+  font-size: 1rem;
+  border: 0;
+}
+#delete-profile:hover {
+  background-color: #803b3b;
+}
+
+.allPostsWrapper .single-post {
+  background-color: #8a7979;
+  padding: 5px;
+  margin-top: 5px;
+}
+.allPostsWrapper .single-post .post-content {
+  font-size: 1.3rem;
+  padding-bottom: 5px;
+  border-bottom: 1px dotted #c4abab;
+  margin-bottom: 5px;
+}
+.allPostsWrapper .single-post .post-comments {
+  display: none;
+}
+.allPostsWrapper .post-comments form {
+  display: flex;
+  align-items: center;
+  height: 60px;
+}
+.allPostsWrapper .post-comments form input {
+  width: 80%;
+  border-radius: 0;
+}
+.single-post .post-comments form button {
+  font-size: 16px;
+  height: 45px;
+  margin-bottom: 5px;
+}
+.single-post .post-comments .single-comment {
+  border: 1px solid green;
+  padding: 5px;
+  margin-bottom: 5px;
+}
+.allPostsWrapper .single-post .post-actions {
+  color: #e4ecf0;
+}
+.allPostsWrapper .single-post .post-actions div {
+  display: flex;
+  text-align: center;
+  justify-content: space-around;
+  gap: 10px;
+}
+.allPostsWrapper .single-post .post-actions div button.like-btn {
+  background-image: url("img/like.png");
+  background-repeat: no-repeat;
+  border: 0;
+  background-color: transparent;
+  background-position: 5px;
+
+  padding: 7px 15px 3px 35px;
+}
+
+.allPostsWrapper .single-post .post-actions div button.comment-btn {
+  background-image: url("img/comment.png");
+  background-repeat: no-repeat;
+  background-position: cover;
+  border: 0;
+  background-color: transparent;
+  background-position: 5px;
+  padding: 5px 15px 5px 30px;
+}
+.allPostsWrapper .single-post .post-actions div button.remove-btn {
+  background-color: transparent;
+  border-color: red;
+}
+.allPostsWrapper .single-post .post-actions div button.remove-btn:hover {
+  color: #fff;
+}

@@ -35,25 +35,25 @@ class Validator {
 
 		if(elFields[fieldName].required) {
 			if(fieldValue === '') {
-				this.errors[fieldName].push('Polje je prazno');
+				this.errors[fieldName].push('Field is empty');
 			}
 		}
 
 		if(elFields[fieldName].email) {
 			if(!this.validateEmail(fieldValue)) {
-				this.errors[fieldName].push('Neispravna email adresa');
+				this.errors[fieldName].push('Email address is not correct');
 			}
 		}
 
-		if(fieldValue.length < elFields[fieldName].minlength || fieldValue.length > elFields[fieldName].maxlength) {
-			this.errors[fieldName].push(`Polje mora imati minimalno ${elFields[fieldName].minlength} i maksimalno ${elFields[fieldName].maxlength} karaktera`);
+		if(fieldValue.length < elFields[fieldName].minLength || fieldValue.length > elFields[fieldName].maxLength) {
+			this.errors[fieldName].push(`Field must have min ${elFields[fieldName].minLength} and max ${elFields[fieldName].maxLength} caracters`);
 		}
 
 		if(elFields[fieldName].matching) {
 			let matchingEl = document.querySelector(`${this.formID} input[name="${elFields[fieldName].matching}"]`);
 
 			if(fieldValue !== matchingEl.value) {
-				this.errors[fieldName].push('Lozinke se ne poklapaju');
+				this.errors[fieldName].push('Passwords are not matching');
 			}
 
 			if(this.errors[fieldName].length === 0) {
