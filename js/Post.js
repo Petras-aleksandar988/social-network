@@ -1,5 +1,9 @@
 class Post {
+<<<<<<< HEAD
   api_url = "https://62fcfa83b9e38585cd4a4f4e.mockapi.io";
+=======
+  api_url = "https://643f98983dee5b763e203b3a.mockapi.io";
+>>>>>>> af21a80 (update api)
 
   //  creating post with entered content and info about user behind it
   async create(userId, content) {
@@ -24,6 +28,7 @@ class Post {
     let response = await fetch(this.api_url + "/posts");
     let data = await response.json();
     return data;
+<<<<<<< HEAD
     }
     
 //   delete() {
@@ -39,6 +44,23 @@ class Post {
 //       });
 //   }
     //  delete post 
+=======
+  }
+
+  //   delete() {
+  //     let session = new Session();
+  //     let session_id = session.getSession();
+  //     fetch(this.api_url + "/users/" + session_id, {
+  //       method: "DELETE",
+  //     })
+  //       .then((res) => res.json())
+  //       .then((data) => {
+  //         session.destroySession();
+  //         window.location.href = "index.html";
+  //       });
+  //   }
+  //  delete post
+>>>>>>> af21a80 (update api)
   delete(post_id) {
     fetch(this.api_url + "/posts/" + post_id, {
       method: "DELETE",
@@ -47,9 +69,15 @@ class Post {
       .then((data) => {
         alert("your post is deleted");
       });
+<<<<<<< HEAD
     }
     //   changing number of likes in database with method PUT
     
+=======
+  }
+  //   changing number of likes in database with method PUT
+
+>>>>>>> af21a80 (update api)
   like(post_id, numberOfLikes) {
     let data = {
       likes: numberOfLikes,
