@@ -4,4 +4,5 @@
 
 - Users can edit their username and password, logout and delete their profile.
 
+
 - Info about users, posts, and comments are stored in mockAPI database (https://mockapi.io/)
