@@ -1,9 +1,8 @@
 class User {
-<<<<<<< HEAD
-  api_url = "https://62fcfa83b9e38585cd4a4f4e.mockapi.io";
-=======
+
+
   api_url = "  https://643f98983dee5b763e203b3a.mockapi.io";
->>>>>>> af21a80 (update api)
+
   /*  - reciving arguments about username,password, email. stringify object and sending it with fetch to database mockapi.io.
     -  creating cookie with method startSession()
     - redirecting user to hexa.html */

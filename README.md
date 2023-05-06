@@ -1,5 +1,7 @@
 # social-network
 
+published: https://social-network-98304.netlify.app
+
 - Social network with the possibility to log in with an existing account, register a new account, post something on the wall, comment on every post individually.
 
 - Users can edit their username and password, logout and delete their profile.

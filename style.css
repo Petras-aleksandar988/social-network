@@ -228,3 +228,88 @@ form li {
 .allPostsWrapper .single-post .post-actions div button.remove-btn:hover {
   color: #fff;
 }
+
+@media(max-width: 630px){
+
+  .col-md-3{
+    height: 200px;
+  }
+  .inner-container.left-side{
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* gap: 15px; */
+  }
+  .left-side img.profile-picture{
+width: 70px;
+align-content: center;
+margin: 0;
+    /* height: 70px;
+    object-fit: contain;
+    border: none; */
+  }
+  .btn-edit{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  body{
+    padding: 5px;
+  }
+}
+
+@media(max-width: 470px){
+  /* .left-side img.profile-picture{
+    width: 50px;
+  } */
+  /* .username-email{
+    font-size: 10px;
+  } */
+  /* .btn-edit{
+    font-size: 12px;
+  } */
+  .btn-edit > *{
+    border-radius: 10px;
+  }
+  body{
+    width: 100%;
+    padding: 0;
+  }
+  .inner-container.right-side{
+    padding: 5px;
+  }
+   #postForm{
+    height: 50px;
+  }
+  #postForm textarea{
+    padding: 5px;
+  }
+  /* .single-post{
+      height: 100px;
+  } */
+.single-post p{
+  margin: 3px;
+  font-size: 13px;
+}
+.allPostsWrapper .single-post .post-content{
+  font-size: 16px;
+} 
+.post-actions div > *{
+  font-size: 10px;
+  background-size: 20px;
+}
+.allPostsWrapper .post-comments form button{
+font-size: 12px;
+margin: 0;padding: 0;
+background-color: transparent;
+}
+.allPostsWrapper .post-comments form >* {
+height: 30px;
+margin: 0;padding: 0;
+}
+.single-post .post-comments .single-comment >*{
+  font-size: 12px;
+}
+}

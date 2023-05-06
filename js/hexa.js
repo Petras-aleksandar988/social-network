@@ -162,9 +162,7 @@ getAllPosts();
 function likePost(btn) {
   let mainEl = btn.closest(".single-post");
   let post_id = mainEl.getAttribute("data-post_id");
-  console.log(btn);
   let numberOfLikes = parseInt(btn.querySelector("span").innerText);
-  console.log(numberOfLikes);
   btn.querySelector("span").innerText = numberOfLikes + 1;
   btn.setAttribute("disabled", true);
   let post = new Post();
@@ -194,7 +192,6 @@ function commentPostSubmit(e) {
   let mainEl = btn.closest(".single-post");
   btn.setAttribute("disabled", true);
   let post_id = mainEl.getAttribute("data-post_id");
-  console.log(post_id);
   let commentContent = mainEl.querySelector(".post-comments input").value;
   mainEl.querySelector("input").value = "";
   let comment = new Comment();
