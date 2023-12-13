@@ -10,10 +10,13 @@ if (session !== "") {
 //  popup modal for registration form
 document.querySelector("#register_here").addEventListener("click", () => {
   document.querySelector(".custom-modal").style.display = "block";
+  document.querySelector(".main-wrapper").style.display = "none";
+
 });
 //  closing popup modal for registration form
 document.querySelector("#close-modal").addEventListener("click", () => {
   document.querySelector(".custom-modal").style.display = "none";
+  document.querySelector(".main-wrapper").style.display = "block";
 });
   // creating object with informations for validation form. Sending this object to Validator class like one of two arguments.
 
