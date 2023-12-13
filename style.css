@@ -180,7 +180,7 @@ form li {
   height: 60px;
 }
 .allPostsWrapper .post-comments form input {
-  width: 80%;
+  width: 75%;
   border-radius: 0;
 }
 .single-post .post-comments form button {
