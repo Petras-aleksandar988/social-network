@@ -323,7 +323,9 @@ padding: 10px;
 .allPostsWrapper .post-comments form button{
 font-size: 12px;
 margin: 0;padding: 0;
-background-color: transparent;
+}
+.single-post .post-comments form button{
+  height: 30px;
 }
 .allPostsWrapper .post-comments form >* {
 height: 30px;
