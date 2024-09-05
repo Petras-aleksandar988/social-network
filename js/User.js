@@ -1,33 +1,45 @@
 class User {
 
 
-  api_url = "  https://643f98983dee5b763e203b3a.mockapi.io";
+  api_url = "http://localhost:8000/api";
 
   /*  - reciving arguments about username,password, email. stringify object and sending it with fetch to database mockapi.io.
     -  creating cookie with method startSession()
     - redirecting user to hexa.html */
 
-  create(username, password, email) {
-    let data = {
-      username: username,
-      password: password,
-      email: email,
-    };
-    data = JSON.stringify(data);
-    fetch(this.api_url + "/users", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: data,
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        let session = new Session();
-        session.startSession(data.id);
-        window.location.href = "hexa.html";
-      });
-  }
+    create(username, password, email) {
+      let data = {
+        username: username,
+        password: password,
+        email: email,
+      };
+      data = JSON.stringify(data);
+    
+      fetch(this.api_url + "/users/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: data,
+      })
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return res.json();
+        })
+        .then((response) => {
+    
+          // Access insertId from the response data
+          const insertId = response.data.insertId;
+    
+          let session = new Session();
+          session.startSession(insertId);
+          window.location.href = "hexa.html";
+        })
+        .catch((error) => console.error('Fetch error:', error));
+    }
+    
   //  pulling info about current user form database
   async getUser(userId) {
     let response = await fetch(this.api_url + "/users/" + userId);
@@ -61,8 +73,10 @@ class User {
     fetch(this.api_url + "/users")
       .then((response) => response.json())
       .then((data) => {
+        
         let loginSuccessful = 0;
         data.forEach((dataUser) => {
+
           if (dataUser.email === email && dataUser.password === password) {
             let session = new Session();
             loginSuccessful = 1;

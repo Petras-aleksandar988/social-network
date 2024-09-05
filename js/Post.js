@@ -1,5 +1,5 @@
 class Post {
-  api_url = "https://643f98983dee5b763e203b3a.mockapi.io";
+  api_url = "http://localhost:8000/api";
 
   async create(userId, content) {
     let data = {
@@ -16,6 +16,7 @@ class Post {
       body: data,
     });
     data = await response.json();
+    
     return data;
   }
 
@@ -25,21 +26,22 @@ class Post {
     return data;
   }
 
-  delete() {
-    let session = new Session();
-    let session_id = session.getSession();
-    fetch(this.api_url + "/users/" + session_id, {
-      method: "DELETE",
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        session.destroySession();
-        window.location.href = "index.html";
-      });
-  }
+  // delete() {
+  //   let session = new Session();
+  //   let session_id = session.getSession();
+  //   fetch(this.api_url + "/users/" + session_id, {
+  //     method: "DELETE",
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       session.destroySession();
+  //       window.location.href = "index.html";
+  //     });
+  // }
 
   delete(post_id) {
-    fetch(this.api_url + "/posts/" + post_id, {
+    
+    fetch(this.api_url + "/posts/" + parseInt(post_id), {
       method: "DELETE",
     })
       .then((res) => res.json())

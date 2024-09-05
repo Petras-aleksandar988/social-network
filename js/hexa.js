@@ -7,7 +7,7 @@ In case we do not have cookie created we redirect user to home page
 if (session_id !== "") {
   async function getUserData() {
     let user = new User();
-    let data = await user.getUser(session_id);
+    let data = await user.getUser(session_id);   
     document.querySelector("#username").innerText = data.username;
     document.querySelector("#email").innerText = data.email;
     document.querySelector("#edit_user_name").value = data.username;
@@ -54,16 +54,20 @@ document.querySelector("#postForm").addEventListener("submit", (e) => {
 //  creating post with async function 
   async function createPost() {
     let post = new Post();
-    let content = document.querySelector("#postContent").value;
+    let content = document.querySelector("#postContent").value;   
     document.querySelector("#postContent").value = "";
     post = await post.create(session_id, content);
+    
     // taking current user 
     let user = new User();
     user = await user.getUser(session_id);
-
+    
+    
     let deletePostHtml = "";
     //  creating remove btn
-    if (session_id === post.user_id) {
+   
+    if (session_id == post.user_id) {
+      
       deletePostHtml = `<button class="remove-btn" onclick="removeMyPost(this)" >Remove</button>`;
     }
     let htmlPosts = document.querySelector(".allPostsWrapper").innerHTML;
@@ -94,70 +98,71 @@ document.querySelector("#postForm").addEventListener("submit", (e) => {
       
       ` + htmlPosts;
   }
-  createPost();
+  createPost(); 
 });
 //  retriving all posts with async function from database
 async function getAllPosts() {
   let allPosts = new Post();
   allPosts = await allPosts.getPosts();
-  //  looping through posts and geting user info from database with async function
-  allPosts.forEach((post) => {
-    async function getUser() {
-      let user = new User();
-      user = await user.getUser(post.user_id);
-      // getting comments for every post from database with async function
-      let comments = new Comment();
-      let allComments = await comments.getComment(post.id);
 
-      let comments_html = "";
+  for (const post of allPosts) {
+    // Fetch post author user details asynchronously
+    let postUser = new User();
+    let postAuthor = await postUser.getUser(post.user_id);
 
-      if (allComments.length > 0) {
-        allComments.forEach((comment) => {
-          comments_html += `
-          <div class="single-comment" data-comment_id=${comment.id} >
-    <p>Author: ${user.username}</p>
-    <p>Comment: ${comment.content}</p>
-    </div>
-    `;
-        });
-      }
-      let deletePostHtml = "";
+    // Fetch comments for this post asynchronously
+    let comments = new Comment();
+    let allComments = await comments.getComment(post.id);
 
-      if (session_id === post.user_id) {
-        deletePostHtml = `<button class="remove-btn" onclick="removeMyPost(this)" >Remove</button>`;
-      }
-      let htmlPosts = document.querySelector(".allPostsWrapper").innerHTML;
-      document.querySelector(".allPostsWrapper").innerHTML =
-        `
-        <div class="single-post" data-post_id=${post.id}>
-        <div>
-        <p><b>Author: ${user.username}</b></p>
-         <div class="post-content">${post.content}</div>
-         </div>
-          <div class="post-actions">
-           <div>
-              <button onclick="likePost(this)" class="like-btn"><span>${post.likes}</span> Likes</button>
-              <button onclick="commentPost(this)" class="comment-btn">Comments</button>
-              ${deletePostHtml}
-           </div>
-          </div>
-         <div class="post-comments">
-           <form >
-           <input  placeholder= "Comment...." type="text" />
-           <button onclick="commentPostSubmit(event)" >Comment</button>
-           </form>
-           ${comments_html}
-         </div>
+    let comments_html = "";
 
+    // Loop through all comments for the post
+    for (const comment of allComments) {
+      let commentUser = new User();
+      let commentAuthor = await commentUser.getUser(comment.user_id);
+
+      // Append the comment HTML along with its author's name
+      comments_html += `
+        <div class="single-comment" data-comment_id=${comment.id}>
+          <p>Author: ${commentAuthor.username}</p>
+          <p>Comment: ${comment.content}</p>
         </div>
-      
-      
-      ` + htmlPosts;
+      `;
     }
-    getUser();
-  });
+
+    let deletePostHtml = "";
+    if (session_id == post.user_id) {
+      deletePostHtml = `<button class="remove-btn" onclick="removeMyPost(this)">Remove</button>`;
+    }
+
+    let htmlPosts = document.querySelector(".allPostsWrapper").innerHTML;
+    document.querySelector(".allPostsWrapper").innerHTML =
+      `
+      <div class="single-post" data-post_id=${post.id}>
+        <div>
+          <p><b>Author: ${postAuthor.username}</b></p>
+          <div class="post-content">${post.content}</div>
+        </div>
+        <div class="post-actions">
+          <div>
+            <button onclick="likePost(this)" class="like-btn"><span>${post.likes}</span> Likes</button>
+            <button onclick="commentPost(this)" class="comment-btn">Comments</button>
+            ${deletePostHtml}
+          </div>
+        </div>
+        <div class="post-comments">
+          <form>
+            <input placeholder="Comment...." type="text" />
+            <button onclick="commentPostSubmit(event)">Comment</button>
+          </form>
+          ${comments_html}
+        </div>
+      </div>
+      ` + htmlPosts;
+  }
 }
 getAllPosts();
+
 // like button, sending changes to database with like() method
 function likePost(btn) {
   let mainEl = btn.closest(".single-post");

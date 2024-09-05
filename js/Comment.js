@@ -1,5 +1,5 @@
 class Comment {
-  api_url = "https://643f98983dee5b763e203b3a.mockapi.io";
+  api_url = "http://localhost:8000/api";
   //   sending comment content, post and user info to database
 
   create(post_id, session_id, commentContent) {
