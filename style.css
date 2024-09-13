@@ -12,6 +12,11 @@ body {
   color: #fff;
   box-shadow: rgba(0, 0, 0, 0.3) 0 0 0 1000px inset;
 }
+
+.main{
+max-width: 1240px;
+margin: 0 auto;
+}
 /* logo  */
 h1 {
   text-align: center;
