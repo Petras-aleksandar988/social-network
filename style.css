@@ -6,11 +6,11 @@
 
 body {
   font-family: sans-serif;
-  padding: 50px;
+  padding-top: 20px;
   background-image: url("img/bg1.jpg");
   background-size: cover;
   color: #fff;
-  box-shadow: rgba(0, 0, 0, 0.7) 0 0 0 1000px inset;
+  box-shadow: rgba(0, 0, 0, 0.3) 0 0 0 1000px inset;
 }
 /* logo  */
 h1 {
@@ -73,8 +73,8 @@ form button:hover {
 }
 .custom-modal {
   display: none;
-  background-color: black;
-  box-shadow: rgba(255, 255, 255, 0.3) 0 0 1000px 1000px;
+  background-color: #393434;
+  box-shadow: rgba(255, 255, 255, 0.1) 0 0 1000px 1000px;
   max-width: 700px;
   padding: 50px;
   margin: auto;
@@ -112,7 +112,6 @@ form li {
 /* styling left and right side in contaners  */
 
 .inner-container {
-  border: 1px solid green;
   padding: 15px;
 }
 .left-side {
@@ -131,6 +130,8 @@ form li {
   padding: 3px 5px;
   background-color: #aca0a0;
   color: white;
+  border-radius: 8px;
+  width: 70px;
 }
 .left-side button:hover {
   background-color: #fff;
@@ -141,18 +142,35 @@ form li {
 .right-side form {
   display: flex;
   height: 100px;
+
 }
-.right-side form textarea {
-  width: 80%;
-  padding: 20px 10px 10px 20px;
+.right-side #postForm{
+  margin-bottom: 53px;
+
+}
+
+.right-side form div textarea {
+  width: 100%;
+  height: 102px;
+  border-radius: 8px;
+  padding: 1px 15px 5px 15px;
   resize: none;
   outline-color: green;
   border: 0;
 }
-.right-side form button {
+.textarea-wrapper{
+  position: relative;
+  width: 100%;
+}
+.right-side form .btn-post {
+  color: #f5e4e4;
+  border-radius: 8px;
+  background: #457feb;
+  position: absolute;
+  right: 0px;
+  bottom: -34px;
   width: 20%;
   padding: 3px;
-  border-radius: 0px;
   font-size: 1rem;
   border: 0;
 }
@@ -161,12 +179,21 @@ form li {
 }
 
 .allPostsWrapper .single-post {
-  background-color: #8a7979;
+  border-radius: 8px;
+  background-color: #ffeaea;
   padding: 5px;
   margin-top: 5px;
 }
+.author{
+  font-style: italic;
+  color: #2f2424;
+}
+.comment{
+  color: #2f2424;
+}
 .allPostsWrapper .single-post .post-content {
   font-size: 1.3rem;
+  color:#290808 ;
   padding-bottom: 5px;
   border-bottom: 1px dotted #c4abab;
   margin-bottom: 5px;
@@ -182,15 +209,18 @@ form li {
 .allPostsWrapper .post-comments form input {
   width: 75%;
   border-radius: 0;
+  border-radius: 4px 0 0 4px;
 }
 .single-post .post-comments form button {
+  background: #c1b2b2;
+  border-radius: 0  4px 4px 0;
   font-size: 16px;
-  height: 45px;
+  height: 44px;
   margin-bottom: 5px;
   width: 25%;
 }
 .single-post .post-comments .single-comment {
-  border: 1px solid green;
+  border: 1px solid #284f28;
   padding: 5px;
   margin-bottom: 5px;
 }
@@ -224,10 +254,11 @@ form li {
 }
 .allPostsWrapper .single-post .post-actions div button.remove-btn {
   background-color: transparent;
-  border-color: red;
+  color: rgb(190, 27, 27);
+  border: none;
 }
 .allPostsWrapper .single-post .post-actions div button.remove-btn:hover {
-  color: #fff;
+  color: rgb(113, 27, 27);
 }
 #photo-label{
   display: block;
@@ -270,9 +301,7 @@ margin: 0;
     gap: 10px;
   }
   
-  body{
-    padding: 5px;
-  }
+
   .custom-modal{
 padding: 10px;
   }
@@ -299,11 +328,11 @@ padding: 10px;
     padding: 0;
   }
   .inner-container.right-side{
-    padding: 5px;
+    padding: 5px 10px;
   }
-   #postForm{
+   /* #postForm{
     height: 50px;
-  }
+  } */
   #postForm textarea{
     padding: 5px;
   }
@@ -318,7 +347,7 @@ padding: 10px;
   font-size: 16px;
 } 
 .post-actions div > *{
-  font-size: 10px;
+  font-size: 14px;
   background-size: 20px;
 }
 .allPostsWrapper .post-comments form button{

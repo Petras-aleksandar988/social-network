@@ -6,7 +6,6 @@ import promisePool from '../database/index.js'
 export const  getCommnets = async  (req, res, next) => {
   const limit = parseInt(req.query.limit);
   const [rows, fields] = await promisePool.query('SELECT * from comments');
-  console.log(rows);
   
   if (!isNaN(limit) && limit > 0) {
     return res.status(200).json(rows.slice(0, limit));
@@ -38,7 +37,6 @@ export const createCommnet =  async (req, res, next) => {
   const sql = 'insert into comments (user_id, post_id, content) values (?,?,?)';
   const [rows, fields] = await promisePool.query(sql, [user_id, post_id, content]);
 
-  console.log(rows);
   
 
   res.status(201).json({data: rows});

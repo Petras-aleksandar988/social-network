@@ -53,6 +53,7 @@ document.querySelector("#postForm").addEventListener("submit", (e) => {
   e.preventDefault();
 //  creating post with async function 
   async function createPost() {
+    
     let post = new Post();
     let content = document.querySelector("#postContent").value;   
     document.querySelector("#postContent").value = "";
@@ -76,7 +77,7 @@ document.querySelector("#postForm").addEventListener("submit", (e) => {
       `
         <div class="single-post" data-post_id=${post.id}>
         <div>
-        <p><b>Author: ${user.username}</b></p>
+        <p><b class='author'>Author: ${user.username}</b></p>
          <div class="post-content">${post.content}</div>
          </div>
           <div class="post-actions">
@@ -106,13 +107,14 @@ async function getAllPosts() {
   allPosts = await allPosts.getPosts();
 
   for (const post of allPosts) {
+    
     // Fetch post author user details asynchronously
     let postUser = new User();
     let postAuthor = await postUser.getUser(post.user_id);
 
     // Fetch comments for this post asynchronously
     let comments = new Comment();
-    let allComments = await comments.getComment(post.id);
+    let allComments = await comments.getComment(post._id);
 
     let comments_html = "";
 
@@ -124,8 +126,8 @@ async function getAllPosts() {
       // Append the comment HTML along with its author's name
       comments_html += `
         <div class="single-comment" data-comment_id=${comment.id}>
-          <p>Author: ${commentAuthor.username}</p>
-          <p>Comment: ${comment.content}</p>
+          <p class='author'>Author: ${commentAuthor.username}</p>
+          <p class='comment'>Comment: ${comment.content}</p>
         </div>
       `;
     }
@@ -138,9 +140,9 @@ async function getAllPosts() {
     let htmlPosts = document.querySelector(".allPostsWrapper").innerHTML;
     document.querySelector(".allPostsWrapper").innerHTML =
       `
-      <div class="single-post" data-post_id=${post.id}>
+      <div class="single-post" data-post_id=${post._id}>
         <div>
-          <p><b>Author: ${postAuthor.username}</b></p>
+          <p><b class='author'>Author: ${postAuthor.username}</b></p>
           <div class="post-content">${post.content}</div>
         </div>
         <div class="post-actions">
@@ -159,6 +161,16 @@ async function getAllPosts() {
         </div>
       </div>
       ` + htmlPosts;
+
+        // Update background image based on whether there are comments
+    let currentPostEl = document.querySelector(`.single-post[data-post_id='${post._id}']`);
+    let commentBtn = currentPostEl.querySelector(".comment-btn");
+
+    if (allComments.length > 0) {
+      // Change background image if there are comments
+      commentBtn.style.backgroundImage = "url('img/comment-blue-2.png')";
+    
+    }
   }
 }
 getAllPosts();
@@ -176,7 +188,14 @@ function likePost(btn) {
 // button to open comment section
 function commentPost(el) {
   let mainEl = el.closest(".single-post");
-  mainEl.querySelector(".post-comments").style.display = "block";
+  let commentsSection = mainEl.querySelector(".post-comments");
+
+  // Toggle the display property between 'block' and 'none'
+  if (commentsSection.style.display === "block") {
+    commentsSection.style.display = "none"; // Hide the comments
+  } else {
+    commentsSection.style.display = "block"; // Show the comments
+  }
 }
 // removing post from hexa.html and database
 function removeMyPost(el) {
@@ -193,7 +212,10 @@ function removeMyPost(el) {
 function commentPostSubmit(e) {
   e.preventDefault();
   let btn = e.target;
+const singlePost = btn.closest('.single-post')
 
+  
+singlePost.querySelector('.comment-btn').style.backgroundImage = "url('img/comment-blue-2.png')"
   let mainEl = btn.closest(".single-post");
   btn.setAttribute("disabled", true);
   let post_id = mainEl.getAttribute("data-post_id");
@@ -206,8 +228,8 @@ function commentPostSubmit(e) {
     user = await user.getUser(session_id);
     mainEl.querySelector(".post-comments").innerHTML += `
     <div class="single-comment" data-user_id=${user.id} >
-    <p>Author: ${user.username}</p>
-    <p>Comment: ${commentContent}</p>
+    <p class='author' >Author: ${user.username}</p>
+    <p class='comment' >Comment: ${commentContent}</p>
     </div>
     `;
   }

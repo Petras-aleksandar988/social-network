@@ -61,7 +61,7 @@ class Validator {
 				this.errors[elFields[fieldName].matching] = [];
 			}
 		}
-
+    document.querySelector('#error_message').innerText = ''
 		this.populateErrors(this.errors);
 	}
 

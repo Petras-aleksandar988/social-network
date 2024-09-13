@@ -1,5 +1,5 @@
 class Comment {
-  api_url = "http://localhost:8000/api";
+  api_url = "https://node-js-mongodb.onrender.com/api";
   //   sending comment content, post and user info to database
 
   create(post_id, session_id, commentContent) {

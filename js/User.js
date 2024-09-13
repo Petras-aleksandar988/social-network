@@ -1,7 +1,7 @@
 class User {
 
 
-  api_url = "http://localhost:8000/api";
+  api_url = "https://node-js-mongodb.onrender.com/api";
 
   /*  - reciving arguments about username,password, email. stringify object and sending it with fetch to database mockapi.io.
     -  creating cookie with method startSession()
@@ -23,22 +23,29 @@ class User {
         body: data,
       })
         .then((res) => {
-          if (!res.ok) {
-            throw new Error('Network response was not ok');
+          return res.json(); 
+        })
+        .then((data) => {
+          
+          if (data.error) {
+         document.querySelector('#error_message').innerText = 
+             data.error;
+            }else{
+
+            // If successful, handle session creation and redirect
+            const insertId = data._id;
+            let session = new Session();
+            session.startSession(insertId);
+            
+            window.location.href = "hexa.html";
           }
-          return res.json();
+
         })
-        .then((response) => {
-    
-          // Access insertId from the response data
-          const insertId = response.data.insertId;
-    
-          let session = new Session();
-          session.startSession(insertId);
-          window.location.href = "hexa.html";
-        })
-        .catch((error) => console.error('Fetch error:', error));
+        .catch((error) => {
+          console.error('Fetch error:', error); // Handle any other errors
+        });
     }
+    
     
   //  pulling info about current user form database
   async getUser(userId) {
@@ -70,23 +77,26 @@ class User {
   //  looping through every user and comparing with entered info in login section. if there is a match we create cookie and redirect user to hexa.html
 
   login(email, password) {
-    fetch(this.api_url + "/users")
+    fetch(this.api_url + "/users/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    })
       .then((response) => response.json())
       .then((data) => {
         
-        let loginSuccessful = 0;
-        data.forEach((dataUser) => {
-
-          if (dataUser.email === email && dataUser.password === password) {
-            let session = new Session();
-            loginSuccessful = 1;
-            session.startSession(dataUser.id);
-            window.location.href = "hexa.html";
-          }
-        });
-        if (loginSuccessful === 0) {
-          alert("Wrong email and address");
+        if (data.message === "Login successful") {
+          let session = new Session();
+          session.startSession(data.userId);
+          window.location.href = "hexa.html";
+        } else {
+          alert("Wrong email or password");
         }
+      })
+      .catch((error) => {
+        console.error('Login error:', error);
       });
   }
   // delete user from database, destroy cookie and redirect to home page

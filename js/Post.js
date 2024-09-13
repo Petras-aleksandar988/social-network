@@ -1,5 +1,5 @@
 class Post {
-  api_url = "http://localhost:8000/api";
+  api_url = "https://node-js-mongodb.onrender.com/api";
 
   async create(userId, content) {
     let data = {
@@ -41,7 +41,7 @@ class Post {
 
   delete(post_id) {
     
-    fetch(this.api_url + "/posts/" + parseInt(post_id), {
+    fetch(this.api_url + "/posts/" + post_id, {
       method: "DELETE",
     })
       .then((res) => res.json())

@@ -5,8 +5,7 @@ import promisePool from '../database/index.js'
 // @route  GET /api/posts
 export const getPosts  = async  (req, res, next) => {
   const limit = parseInt(req.query.limit);
-  const [rows, fields] = await promisePool.query('SELECT * from posts');
-  console.log(rows);
+  const [rows] = await promisePool.query('SELECT * from posts');
   
   if (!isNaN(limit) && limit > 0) {
     return res.status(200).json(rows.slice(0, limit));
@@ -62,9 +61,12 @@ export const updatePost = async (req, res, next) => {
 export const deletePost = async(req, res, next) => {
   try {
     const id = parseInt(req.params.id);
-    const sql = 'delete from posts where id =?';
-    const [rows, fields] = await promisePool.query(sql, [id]);
-    res.status(200).json({data: rows});
+    const deletePostSql = 'DELETE FROM posts WHERE id = ?';
+    const deleteCommentsSql = 'DELETE FROM comments WHERE post_id = ?';
+   await promisePool.query(deletePostSql, [id]);
+     await promisePool.query(deleteCommentsSql, [id]);
+
+    res.status(200).json('post deeted');
   } catch (error) {
     console.log(error);
     res.json({

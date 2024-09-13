@@ -20,7 +20,7 @@
   </head>
   <body>
     <!-- creating left and right section ratio  3/9 with bootstrap -->
-    <div class="container">
+    <div >
       <div class="row">
         <!-- left side with profile picture, account name,email and two buttons for edit and logout -->
         <div class="col-md-3">
@@ -40,11 +40,11 @@
         <div class="col-md-9">
           <div class="inner-container right-side">
             <form id="postForm">
-              <textarea
-                placeholder="post your comment...."
-                id="postContent"
-              ></textarea>
-              <button>POST</button>
+              <div class="textarea-wrapper">
+              <textarea placeholder="post your comment...." id="postContent"></textarea>
+            <button class="btn-post">POST</button>
+          </div>
+
             </form>
             <div class="allPostsWrapper"></div>
           </div>
