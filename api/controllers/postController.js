@@ -4,12 +4,9 @@ import promisePool from '../database/index.js'
 // @desc   Get all posts
 // @route  GET /api/posts
 export const getPosts  = async  (req, res, next) => {
-  const limit = parseInt(req.query.limit);
   const [rows] = await promisePool.query('SELECT * from posts');
   
-  if (!isNaN(limit) && limit > 0) {
-    return res.status(200).json(rows.slice(0, limit));
-  }
+
 
   res.status(200).json(rows);
 };

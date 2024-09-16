@@ -1,5 +1,5 @@
 class Comment {
-  api_url = "https://node-js-mongodb.onrender.com/api";
+  api_url = "https://aleksa-scandiweb.shop/socialNetwork";
   //   sending comment content, post and user info to database
 
   create(post_id, session_id, commentContent) {
@@ -10,7 +10,7 @@ class Comment {
     };
     data = JSON.stringify(data);
 
-    fetch(this.api_url + "/comments", {
+    fetch(this.api_url  + "/comments.php", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -22,8 +22,11 @@ class Comment {
   }
   //  pulling comments from database for every different post
   async getComment(post_id) {
-    const response = await fetch(this.api_url + "/comments");
+    const response = await fetch(this.api_url + "/comments.php" );
     const data = await response.json();
+    console.log(data);
+    console.log(post_id);
+    
     let post_comments = [];
     let i = 0;
     data.forEach((comment) => {

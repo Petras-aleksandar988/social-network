@@ -1,47 +1,51 @@
 class Post {
-  api_url = "https://node-js-mongodb.onrender.com/api";
+  api_url = "https://aleksa-scandiweb.shop/socialNetwork";
 
   async create(userId, content) {
     let data = {
-      user_id: userId,
-      content: content,
-      likes: 0,
+        user_id: userId,
+        content: content,
+        likes: 0,
     };
     data = JSON.stringify(data);
-    let response = await fetch(this.api_url + "/posts", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: data,
-    });
-    data = await response.json();
-    
-    return data;
-  }
+
+    try {
+        let response = await fetch(this.api_url + "/posts.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: data,
+        });
+
+        // Check if the response is successful
+        if (!response.ok) {
+            // Handle HTTP errors
+            const errorText = await response.text();
+            throw new Error(`HTTP error! Status: ${response.status}, Message: ${errorText}`);
+        }
+
+        // Parse and return the JSON data
+        const responseData = await response.json();
+        return responseData;
+    } catch (error) {
+        console.error('Error:', error);
+        // Handle the error appropriately
+        throw error;
+    }
+}
 
   async getPosts() {
-    let response = await fetch(this.api_url + "/posts");
+    let response = await fetch(this.api_url  + "/posts.php");
     let data = await response.json();
     return data;
   }
 
-  // delete() {
-  //   let session = new Session();
-  //   let session_id = session.getSession();
-  //   fetch(this.api_url + "/users/" + session_id, {
-  //     method: "DELETE",
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       session.destroySession();
-  //       window.location.href = "index.html";
-  //     });
-  // }
+
 
   delete(post_id) {
     
-    fetch(this.api_url + "/posts/" + post_id, {
+    fetch(this.api_url + `/posts.php?id=${post_id}`  , {
       method: "DELETE",
     })
       .then((res) => res.json())
@@ -55,7 +59,7 @@ class Post {
       likes: numberOfLikes,
     };
     data = JSON.stringify(data);
-    fetch(this.api_url + "/posts/" + post_id, {
+    fetch(this.api_url +  `/posts.php?id=${post_id}`,  {
       method: "PUT",
       headers: {
         "content-type": "application/json",

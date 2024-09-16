@@ -58,6 +58,7 @@ document.querySelector("#postForm").addEventListener("submit", (e) => {
     let content = document.querySelector("#postContent").value;   
     document.querySelector("#postContent").value = "";
     post = await post.create(session_id, content);
+    console.log(post);
     
     // taking current user 
     let user = new User();
@@ -114,12 +115,13 @@ async function getAllPosts() {
 
     // Fetch comments for this post asynchronously
     let comments = new Comment();
-    let allComments = await comments.getComment(post._id);
+    let allComments = await comments.getComment(post.id);
 
     let comments_html = "";
 
     // Loop through all comments for the post
     for (const comment of allComments) {
+     
       let commentUser = new User();
       let commentAuthor = await commentUser.getUser(comment.user_id);
 
@@ -131,7 +133,8 @@ async function getAllPosts() {
         </div>
       `;
     }
-
+    console.log( comments_html);
+      
     let deletePostHtml = "";
     if (session_id == post.user_id) {
       deletePostHtml = `<button class="remove-btn" onclick="removeMyPost(this)">Remove</button>`;
@@ -140,7 +143,7 @@ async function getAllPosts() {
     let htmlPosts = document.querySelector(".allPostsWrapper").innerHTML;
     document.querySelector(".allPostsWrapper").innerHTML =
       `
-      <div class="single-post" data-post_id=${post._id}>
+      <div class="single-post" data-post_id=${post.id}>
         <div>
           <p><b class='author'>Author: ${postAuthor.username}</b></p>
           <div class="post-content">${post.content}</div>
@@ -163,7 +166,7 @@ async function getAllPosts() {
       ` + htmlPosts;
 
         // Update background image based on whether there are comments
-    let currentPostEl = document.querySelector(`.single-post[data-post_id='${post._id}']`);
+    let currentPostEl = document.querySelector(`.single-post[data-post_id='${post.id}']`);
     let commentBtn = currentPostEl.querySelector(".comment-btn");
 
     if (allComments.length > 0) {
