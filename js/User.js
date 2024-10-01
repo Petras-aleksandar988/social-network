@@ -3,19 +3,21 @@ class User {
 
   api_url = "https://aleksa-scandiweb.shop/socialNetwork";
 
-    create(username, password, email) {
+  async  create(username, password, email) {
       let data = {
         username: username,
         password: password,
         email: email
       };
       data = JSON.stringify(data);
-   
+      const apiKey = await getApiKey();
+      
      
       fetch(this.api_url + "/users.php" ,  {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+           'API_KEY': apiKey
         },
         body: data,
       }) .then(response => {
@@ -44,12 +46,18 @@ class User {
     
   //  pulling info about current user form database
   async getUser(userId) {
-    let response = await fetch(this.api_url + `/users.php?id=${userId}`);
+    // const apiSecretKey = process.env.API_SECRET_KEY;
+    const apiKey = await getApiKey();
+    let response = await fetch(this.api_url + `/users.php?id=${userId}` , {
+      headers: {
+      'API_KEY': apiKey  
+      },
+    });
     let data = await response.json();
     return data;
   }
   // changing username and pasword and sending new info to database
-  edit(username, email) {
+async  edit(username, email) {
     let session = new Session();
     let session_id = session.getSession();
     let data = {
@@ -57,10 +65,12 @@ class User {
       email: email,
     };
     data = JSON.stringify(data);
+    const apiKey = await getApiKey();
     fetch(this.api_url + `/users.php?id=${session_id}` ,{
       method: "PUT",
       headers: {
         "content-type": "application/json",
+        'API_KEY': apiKey  
       },
       body: data,
     })
@@ -71,11 +81,13 @@ class User {
   }
   //  looping through every user and comparing with entered info in login section. if there is a match we create cookie and redirect user to hexa.html
 
-  login(email, password) {
+ async login(email, password) {
+  const apiKey = await getApiKey();
     fetch(this.api_url + `/users.php?action=login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        'API_KEY': apiKey
       },
       body: JSON.stringify({ email, password }),
     })
@@ -95,11 +107,16 @@ class User {
       });
   }
   // delete user from database, destroy cookie and redirect to home page
-  delete() {
+  async delete() {
     let session = new Session();
     let session_id = session.getSession();
+    const apiKey = await getApiKey();
     fetch(this.api_url + `/users.php?id=${session_id}` , {
+
       method: "DELETE",
+      headers: {
+        'API_KEY': apiKey
+      },
     })
       .then((res) => res.json())
       .then((data) => {

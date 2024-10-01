@@ -8,12 +8,13 @@ class Post {
         likes: 0,
     };
     data = JSON.stringify(data);
-
+    const apiKey = await getApiKey();
     try {
         let response = await fetch(this.api_url + "/posts.php", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
+                'API_KEY': apiKey 
             },
             body: data,
         });
@@ -36,17 +37,25 @@ class Post {
 }
 
   async getPosts() {
-    let response = await fetch(this.api_url  + "/posts.php");
+    const apiKey = await getApiKey();
+    let response = await fetch(this.api_url  + "/posts.php" ,{
+      headers: {
+        'API_KEY': apiKey
+      },
+    });
     let data = await response.json();
     return data;
   }
 
 
 
-  delete(post_id) {
-    
+ async  delete(post_id) {
+  const apiKey = await getApiKey();
     fetch(this.api_url + `/posts.php?id=${post_id}`  , {
       method: "DELETE",
+      headers: {
+        'API_KEY': apiKey
+      },
     })
       .then((res) => res.json())
       .then((data) => {
@@ -54,7 +63,8 @@ class Post {
       });
   }
 
-  like(post_id, numberOfLikes) {
+ async like(post_id, numberOfLikes) {
+  const apiKey = await getApiKey();
     let data = {
       likes: numberOfLikes,
     };
@@ -63,6 +73,7 @@ class Post {
       method: "PUT",
       headers: {
         "content-type": "application/json",
+        'API_KEY': apiKey
       },
       body: data,
     })

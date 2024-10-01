@@ -58,7 +58,6 @@ document.querySelector("#postForm").addEventListener("submit", (e) => {
     let content = document.querySelector("#postContent").value;   
     document.querySelector("#postContent").value = "";
     post = await post.create(session_id, content);
-    console.log(post);
     
     // taking current user 
     let user = new User();
@@ -133,7 +132,6 @@ async function getAllPosts() {
         </div>
       `;
     }
-    console.log( comments_html);
       
     let deletePostHtml = "";
     if (session_id == post.user_id) {

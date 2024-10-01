@@ -2,18 +2,19 @@ class Comment {
   api_url = "https://aleksa-scandiweb.shop/socialNetwork";
   //   sending comment content, post and user info to database
 
-  create(post_id, session_id, commentContent) {
+ async create(post_id, session_id, commentContent) {
     let data = {
       user_id: session_id,
       post_id: post_id,
       content: commentContent,
     };
     data = JSON.stringify(data);
-
+    const apiKey = await getApiKey();
     fetch(this.api_url  + "/comments.php", {
       method: "POST",
       headers: {
         "content-type": "application/json",
+        'API_KEY': apiKey
       },
       body: data,
     })
@@ -22,11 +23,13 @@ class Comment {
   }
   //  pulling comments from database for every different post
   async getComment(post_id) {
-    const response = await fetch(this.api_url + "/comments.php" );
+    const apiKey = await getApiKey();
+    const response = await fetch(this.api_url + "/comments.php",{
+      headers: {
+        'API_KEY': apiKey
+      },
+  });
     const data = await response.json();
-    console.log(data);
-    console.log(post_id);
-    
     let post_comments = [];
     let i = 0;
     data.forEach((comment) => {
