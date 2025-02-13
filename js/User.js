@@ -1,7 +1,7 @@
 class User {
 
 
-  api_url = "https://aleksa-scandiweb.shop/socialNetwork";
+  api_url = "http://localhost:8000";
 
   async  create(username, password, email) {
       let data = {
@@ -12,7 +12,8 @@ class User {
       data = JSON.stringify(data);
       const apiKey = await getApiKey();
       
-     
+      console.log(apiKey);
+      
       fetch(this.api_url + "/users.php" ,  {
         method: "POST",
         headers: {
@@ -23,6 +24,7 @@ class User {
       }) .then(response => {
         
         if (!response.ok) {
+          
           // If the response is not OK, throw an error with the response text
           return response.text().then(text => { throw new Error(text); });
         }

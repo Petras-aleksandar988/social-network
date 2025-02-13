@@ -1,5 +1,5 @@
 class Comment {
-  api_url = "https://aleksa-scandiweb.shop/socialNetwork";
+  api_url = "http://localhost:8000";
   //   sending comment content, post and user info to database
 
  async create(post_id, session_id, commentContent) {

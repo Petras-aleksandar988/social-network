@@ -1,5 +1,5 @@
 class Post {
-  api_url = "https://aleksa-scandiweb.shop/socialNetwork";
+  api_url = "http://localhost:8000";
 
   async create(userId, content) {
     let data = {
