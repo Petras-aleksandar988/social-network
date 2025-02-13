@@ -1,7 +1,28 @@
 <?php
 include 'db.php';
 
-// Get the request method
+$headers = getallheaders();
+$token = $headers['Authorization'] ?? '';
+
+if (empty($token)) {
+    http_response_code(401);
+    echo json_encode(['error' => 'Unauthorized']);
+    exit();
+}
+
+// Check if token exists in database
+$stmt = $mysqli->prepare("SELECT id FROM users WHERE token = ?");
+$stmt->bind_param("s", $token);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows === 0) {
+    http_response_code(401);
+    echo json_encode(['error' => 'Invalid token']);
+    exit();
+}
+
+// Token is valid, proceed with API request
 $method = $_SERVER['REQUEST_METHOD'];
 
 // Fetch request body
@@ -29,13 +50,6 @@ switch ($method) {
             getUser($mysqli, $_GET['id']);
         } else {
             getUsers($mysqli);
-        }
-        break;
-    case 'POST':
-        if (isset($_GET['action']) && $_GET['action'] === 'login') {
-            loginUser($mysqli, $data);
-        } else {
-            createUser($mysqli, $data);
         }
         break;
     case 'PUT':
@@ -89,66 +103,6 @@ function getUser($mysqli, $id) {
         echo json_encode($user);
     } else {
         echo json_encode(['message' => 'User not found']);
-    }
-}
-
-// Create a new user
-function createUser($mysqli, $data) {
-    $email = $data['email'];
-    $username = $data['username'];
-    $password = password_hash($data['password'], PASSWORD_DEFAULT);
-    
-      // Check if the email already exists
-    $emailCheckQuery = "SELECT email FROM users WHERE email = ?";
-    $stmt = $mysqli->prepare($emailCheckQuery);
-    $stmt->bind_param('s', $email);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    if ($result->num_rows > 0) {
-        // Email exists, send error response
-        echo json_encode([
-            'error' => 'Email already exists',
-            'emailExist' => 'User already exists, please choose another email!'
-        ]);
-        return;
-    }
-    
-    $query = "INSERT INTO users (email, username, password) VALUES (?, ?, ?)";
-    $stmt = $mysqli->prepare($query);
-    $stmt->bind_param('sss', $email, $username, $password);
-    
-    if ($stmt->execute()) {
-        $userId = $mysqli->insert_id;
-        $response['message'] = 'User created successfully';
-        $response['user_id'] = $userId; // Include the user_id in the response
-    } else {
-        $response['error'] = 'Failed to create user';
-    }
-    echo json_encode($response);
-}
-
-// Login user
-function loginUser($mysqli, $data) {
-    $email = $data['email'];
-    $password = $data['password'];
-
-    $query = "SELECT * FROM users WHERE email = ?";
-    $stmt = $mysqli->prepare($query);
-    $stmt->bind_param('s', $email);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    
-    if ($result->num_rows > 0) {
-        $user = $result->fetch_assoc();
-        
-        if (password_verify($password, $user['password'])) {
-            echo json_encode(['message' => 'Login successful', 'userId' => $user['id']]);
-        } else {
-            echo json_encode(['message' => 'Invalid email or password']);
-        }
-    } else {
-        echo json_encode(['message' => 'Invalid email or password']);
     }
 }
 

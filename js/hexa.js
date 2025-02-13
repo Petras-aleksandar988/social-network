@@ -1,13 +1,20 @@
 let session = new Session();
 let session_id = session.getSession();
-/*  If we have cookie created for current user we get information about username and email from database with async function getUserData() and present it on U/I.
+let token = localStorage.getItem("token");
+/*  If we have cookie created for current user we get information about username and email from database with async function getUserData() and present it on U/I.()
 In case we do not have cookie created we redirect user to home page
 */
 
-if (session_id !== "") {
+if (session_id !== "" ) {
+
   async function getUserData() {
     let user = new User();
-    let data = await user.getUser(session_id);   
+    let data = await user.getUser(session_id);  
+    
+    if(data.error == "Invalid token"){
+      session.destroySession();
+      window.location.href = "/";
+    }
     document.querySelector("#username").innerText = data.username;
     document.querySelector("#email").innerText = data.email;
     document.querySelector("#edit_user_name").value = data.username;
@@ -20,6 +27,7 @@ if (session_id !== "") {
 // destroying existing cookie when click logout
 document.querySelector(".logout").addEventListener("click", (e) => {
   session.destroySession();
+  localStorage.removeItem("token");
   window.location.href = "/";
 });
 //  showing and closing popup modal

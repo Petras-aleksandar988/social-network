@@ -10,15 +10,14 @@ class User {
         email: email
       };
       data = JSON.stringify(data);
-      const apiKey = await getApiKey();
+     
       
-      console.log(apiKey);
       
-      fetch(this.api_url + "/users.php" ,  {
+      fetch(this.api_url + "/auth.php" ,  {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-           'API_KEY': apiKey
+        
         },
         body: data,
       }) .then(response => {
@@ -37,6 +36,9 @@ class User {
           // const insertId = data._id;
           let session = new Session();
           session.startSession(data.user_id);
+          localStorage.setItem("token", data.token);
+          console.log(data.token);
+          
           window.location.href = "hexa.html";
         }
       })
@@ -48,15 +50,17 @@ class User {
     
   //  pulling info about current user form database
   async getUser(userId) {
+    let token = localStorage.getItem("token");
     // const apiSecretKey = process.env.API_SECRET_KEY;
     const apiKey = await getApiKey();
     let response = await fetch(this.api_url + `/users.php?id=${userId}` , {
       headers: {
-      'API_KEY': apiKey  
+   
+      "Authorization": token 
       },
     });
     let data = await response.json();
-    return data;
+  return data;
   }
   // changing username and pasword and sending new info to database
 async  edit(username, email) {
@@ -72,7 +76,8 @@ async  edit(username, email) {
       method: "PUT",
       headers: {
         "content-type": "application/json",
-        'API_KEY': apiKey  
+      
+        "Authorization": token 
       },
       body: data,
     })
@@ -85,11 +90,10 @@ async  edit(username, email) {
 
  async login(email, password) {
   const apiKey = await getApiKey();
-    fetch(this.api_url + `/users.php?action=login`, {
+    fetch(this.api_url + `/auth.php?action=login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        'API_KEY': apiKey
       },
       body: JSON.stringify({ email, password }),
     })
@@ -99,6 +103,7 @@ async  edit(username, email) {
         if (data.message === "Login successful") {
           let session = new Session();
           session.startSession(data.userId);
+          localStorage.setItem("token", data.token);
           window.location.href = "hexa.html";
         } else {
           document.querySelector('#error_login').innerText = data.message;
